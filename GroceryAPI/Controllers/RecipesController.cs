@@ -1,5 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using GroceryAPI.Models;
+using System.Text.Json;
+using System.Text;
+using System.Net.Http.Headers;
+
 
 namespace GroceryAPI.Controllers;
 
@@ -7,40 +11,20 @@ namespace GroceryAPI.Controllers;
 [Route("api/[controller]")]
 public class RecipesController : ControllerBase
 {
-    // simulate a simple in-memory “database”
-    private static readonly List<(Guid Id, RecipeDto Data)> _db = new();
+    public readonly string? _endpoint;
+    private readonly string? _apiKey;
+    private readonly HttpClient _http;
 
-    // POST: api/recipes
-    [HttpPost]
-    public IActionResult CreateRecipe([FromBody] RecipeDto recipe)
+    public RecipesController(IConfiguration config, IHttpClientFactory httpFactory)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        _apiKey = config["API_KEY"];
+        _endpoint = config["API_URL"];
 
-        var id = Guid.NewGuid();
-        _db.Add((id, recipe));
+        if (_apiKey == null || _endpoint == null)
+        {
+            Console.WriteLine("ENV IS NOT LOAD");
+        }
 
-        return CreatedAtAction(
-            nameof(GetRecipeById),
-            new { id },
-            new { id, food = recipe.Food, ingredients = recipe.Ingredients }
-        );
-    }
-
-    // GET: api/recipes/{id}
-    [HttpGet("{id:guid}")]
-    public IActionResult GetRecipeById(Guid id)
-    {
-        var item = _db.FirstOrDefault(x => x.Id == id);
-        if (item == default) return NotFound();
-
-        return Ok(new { id = item.Id, food = item.Data.Food, ingredients = item.Data.Ingredients });
-    }
-
-    // GET: api/recipes
-    [HttpGet]
-    public IActionResult GetAll()
-    {
-        return Ok(_db.Select(r => new { id = r.Id, r.Data.Food, r.Data.Ingredients }));
+        _http = httpFactory.CreateClient();
     }
 }

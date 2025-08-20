@@ -1,1 +1,56 @@
-*/.env
+# Build results
+bin/
+obj/
+out/
+artifacts/
+
+# VS Code settings
+.vscode/
+*.code-workspace
+
+# Rider / Visual Studio IDE files
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Dotnet / NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+project.lock.json
+project.fragment.lock.json
+artifacts/
+packages/
+.nuget/
+*.nuget.props
+*.nuget.targets
+
+# Entity Framework Migrations artifacts
+*_Migration.cs
+*_Migration.Designer.cs
+
+# Environment & secrets
+.env
+*.secrets.json
+appsettings.Development.json.local
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Docker
+docker-compose.override.yml
+*.pid
+
+# Logs
+*.log
+logs/
