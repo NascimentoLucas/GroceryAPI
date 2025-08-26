@@ -1,6 +1,4 @@
-#nullable enable
 using Microsoft.EntityFrameworkCore;
-using GroceryAPI.Models;
 
 namespace GroceryAPI.Models;
 

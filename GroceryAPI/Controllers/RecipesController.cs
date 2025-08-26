@@ -14,17 +14,18 @@ public class RecipesController : ControllerBase
     public readonly string? _endpoint;
     private readonly string? _apiKey;
     private readonly HttpClient _http;
+    private readonly FoodsController _foods;
 
-    public RecipesController(IConfiguration config, IHttpClientFactory httpFactory)
+    public RecipesController(IConfiguration config, IHttpClientFactory httpFactory, AppDbContext db)
     {
         _apiKey = config["API_KEY"];
         _endpoint = config["API_URL"];
-
         if (_apiKey == null || _endpoint == null)
         {
-            Console.WriteLine("ENV IS NOT LOAD");
+            throw new Exception("ENV IS NOT LOAD");
         }
 
+        _foods = new FoodsController(db);
         _http = httpFactory.CreateClient();
     }
 }
