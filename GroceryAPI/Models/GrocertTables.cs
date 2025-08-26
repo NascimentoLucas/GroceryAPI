@@ -6,7 +6,7 @@ namespace GroceryAPI.Models;
 
 public class Ingredient
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
     [Required, MaxLength(200)]
     public string Name { get; set; } = null!;
@@ -19,11 +19,11 @@ public class Ingredient
 
 public class FoodIngredient
 {
-    public long Id { get; set; } // Surrogate PK (easier for updates); you can switch to composite if you prefer.
+    public Guid Id { get; set; } // Surrogate PK (easier for updates); you can switch to composite if you prefer.
 
     // FKs
-    public long FoodId { get; set; }
-    public long IngredientId { get; set; }
+    public Guid FoodId { get; set; }
+    public Guid IngredientId { get; set; }
 
     // Payload
     [MaxLength(200)]

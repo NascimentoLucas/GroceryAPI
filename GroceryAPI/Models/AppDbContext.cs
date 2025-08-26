@@ -20,13 +20,14 @@ public class AppDbContext : DbContext
             e.ToTable("foods");
             e.HasKey(x => x.Id);
 
-            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.Id)
+            .HasColumnName("id")
+            .HasColumnType("uuid")                 // PostgreSQL
+            .HasDefaultValueSql("gen_random_uuid()");
+
             e.Property(x => x.Name)
                 .HasColumnName("name")
-                .HasColumnType("citext")   // PostgreSQL CITEXT (case-insensitive)
                 .IsRequired();
-
-            e.HasIndex(x => x.Name).IsUnique();
 
             e.Property(x => x.CreatedAt)
                 .HasColumnName("created_at")
@@ -46,7 +47,11 @@ public class AppDbContext : DbContext
             e.ToTable("ingredients");
             e.HasKey(x => x.Id);
 
-            e.Property(x => x.Id).HasColumnName("id");
+            e.Property(x => x.Id)
+            .HasColumnName("id")
+            .HasColumnType("uuid")                 // PostgreSQL
+            .HasDefaultValueSql("gen_random_uuid()");
+
             e.Property(x => x.Name)
                 .HasColumnName("name")
                 .HasColumnType("citext")
@@ -74,8 +79,13 @@ public class AppDbContext : DbContext
 
             e.Property(x => x.Id).HasColumnName("id");
 
-            e.Property(x => x.FoodId).HasColumnName("food_id");
-            e.Property(x => x.IngredientId).HasColumnName("ingredient_id");
+            e.Property(x => x.FoodId)
+            .HasColumnName("food_id")
+            .HasColumnType("uuid");
+
+            e.Property(x => x.IngredientId)
+            .HasColumnName("ingredient_id")
+            .HasColumnType("uuid");
 
             e.Property(x => x.Quantity)
                 .HasColumnName("quantity")
