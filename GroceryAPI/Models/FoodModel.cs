@@ -24,5 +24,4 @@ namespace GroceryAPI.DTOs
     public sealed record CreateFoodDto(string Name);
     public sealed record UpdateFoodDto(string Name);
 
-    public sealed record PagedResult<T>(IReadOnlyList<T> Items, int Page, int PageSize, int TotalCount);
 }

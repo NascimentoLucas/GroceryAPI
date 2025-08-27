@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GroceryAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250825174426_Init")]
-    partial class Init
+    [Migration("20250827192534_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,12 +28,11 @@ namespace GroceryAPI.Migrations
 
             modelBuilder.Entity("GroceryAPI.Models.Food", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -44,25 +43,20 @@ namespace GroceryAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("citext")
+                        .HasColumnType("character varying(200)")
                         .HasColumnName("name");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("foods", (string)null);
                 });
 
             modelBuilder.Entity("GroceryAPI.Models.FoodIngredient", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("uuid")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -70,12 +64,12 @@ namespace GroceryAPI.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<long>("FoodId")
-                        .HasColumnType("bigint")
+                    b.Property<Guid>("FoodId")
+                        .HasColumnType("uuid")
                         .HasColumnName("food_id");
 
-                    b.Property<long>("IngredientId")
-                        .HasColumnType("bigint")
+                    b.Property<Guid>("IngredientId")
+                        .HasColumnType("uuid")
                         .HasColumnName("ingredient_id");
 
                     b.Property<string>("Quantity")
@@ -95,12 +89,11 @@ namespace GroceryAPI.Migrations
 
             modelBuilder.Entity("GroceryAPI.Models.Ingredient", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()

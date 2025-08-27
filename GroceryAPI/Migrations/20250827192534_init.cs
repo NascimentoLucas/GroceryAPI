@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace GroceryAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,9 +18,8 @@ namespace GroceryAPI.Migrations
                 name: "foods",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "citext", maxLength: 200, nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
@@ -33,8 +31,7 @@ namespace GroceryAPI.Migrations
                 name: "ingredients",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
                     name = table.Column<string>(type: "citext", maxLength: 200, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()")
                 },
@@ -47,10 +44,9 @@ namespace GroceryAPI.Migrations
                 name: "food_ingredients",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    food_id = table.Column<long>(type: "bigint", nullable: false),
-                    ingredient_id = table.Column<long>(type: "bigint", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    food_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ingredient_id = table.Column<Guid>(type: "uuid", nullable: false),
                     quantity = table.Column<string>(type: "text", maxLength: 200, nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()")
                 },
@@ -81,12 +77,6 @@ namespace GroceryAPI.Migrations
                 name: "IX_food_ingredients_ingredient_id",
                 table: "food_ingredients",
                 column: "ingredient_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_foods_name",
-                table: "foods",
-                column: "name",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ingredients_name",

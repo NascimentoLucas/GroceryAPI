@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GroceryAPI.Models;
 
+public sealed record PagedResult<T>(IReadOnlyList<T> Items, int Page, int PageSize, int TotalCount);
+
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
