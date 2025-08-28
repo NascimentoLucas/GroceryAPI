@@ -43,9 +43,16 @@ services:
     ports:
       - "5000:8080"
     environment:
+      API_KEY_FILE: /run/secrets/secrets.txt
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__Default: "Host=${POSTGRES_HOST};Port=${POSTGRES_PORT};Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Pooling=true"
+    volumes:
+      - ./secrets:/run/secrets:ro
 
 volumes:
   postgres_data:
   pgadmin_data:
+
+
+secrets:
+  api_key:
+    file: ./secrets

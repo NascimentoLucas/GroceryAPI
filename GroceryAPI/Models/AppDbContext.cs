@@ -93,8 +93,6 @@ public class AppDbContext : DbContext
                 .HasColumnName("quantity")
                 .HasColumnType("text");
 
-            // avoid duplicate ingredient entries per food
-            e.HasIndex(x => new { x.FoodId, x.IngredientId }).IsUnique();
 
             e.Property(x => x.CreatedAt)
                 .HasColumnName("created_at")
