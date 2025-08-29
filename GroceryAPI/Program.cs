@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 Env.Load();
 builder.Configuration.AddEnvironmentVariables();
 builder.Configuration
-   .AddFileSecrets("/run/secrets", optional: true);
+   .AddFileSecrets("/etc/secrets", optional: true);
 
 const string dbString = "Default";
 var connectionString = builder.Configuration.GetConnectionString(dbString);

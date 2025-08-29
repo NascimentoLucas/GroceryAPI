@@ -45,13 +45,10 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     volumes:
-      - ./secrets:/run/secrets:ro
+      - ./secrets:/etc/secrets:ro
 
 volumes:
   postgres_data:
   pgadmin_data:
 
 
-secrets:
-  api_key:
-    file: ./secrets
