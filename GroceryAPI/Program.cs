@@ -11,7 +11,12 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Configuration
    .AddFileSecrets("/run/secrets", optional: true);
 
-var connectionString = builder.Configuration.GetConnectionString("Default");
+const string dbString = "Default";
+var connectionString = builder.Configuration.GetConnectionString(dbString);
+
+if (string.IsNullOrWhiteSpace(connectionString))
+    throw new InvalidOperationException("Connection string '" + dbString + "' is required.");
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseNpgsql(connectionString));
 

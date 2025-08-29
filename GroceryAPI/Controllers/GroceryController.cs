@@ -24,25 +24,22 @@ public class GroceryController : ControllerBase
         _prompt = prompt.Value;
     }
 
-    // Accepts TEXT or a JSON string as body.
-    // Example: text/plain -> (raw sentence)
-    //          application/json -> "Ontem fiz um estrogonofe..."
     [HttpPost("extract")]
-    [Consumes("text/plain", "application/json")]
+    [Consumes("application/json")]
     public async Task<IActionResult> ExtractAsync(
         [FromBody] string text,
-        [FromQuery] bool save = false,
+        [FromQuery] bool save = true,
         CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(text))
             return BadRequest(new { error = "Body must be a non-empty string." });
+
 
         var payload = new
         {
             model = _prompt.Model,
             input = _prompt.BuildInput(text)
         };
-
 
         using var resp = await _http.PostAsJsonAsync("", payload);
         var respText = await resp.Content.ReadAsStringAsync(ct);
