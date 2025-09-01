@@ -133,5 +133,4 @@ Response (shape):
 - Consider adding a secret-scanning tool (e.g., gitleaks) to CI.
 
 ## License
-Add your preferred license here.
-
+MIT — see `LICENSE` for details.
